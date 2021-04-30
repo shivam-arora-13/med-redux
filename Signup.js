@@ -8,10 +8,11 @@ import * as userActions from "../../redux/actions/userActions";
 const Signup = (props) => {
 
   const [signupCred, setSignupCred] = useState({
-    email : "",
-    Username : "",
+    name : "",
+    username : "",
     role : "donor",
-    password : ""
+    password : "",
+    description : ""
   })
 
   const changeHandler = (event)=>{
@@ -29,22 +30,22 @@ const Signup = (props) => {
         <Col md={6}>
           <FormGroup>
             <Label for="exampleEmail">Email/Username</Label>
-            <Input type="email" name="email" id="exampleEmail" placeholder="Enter Email/Username" 
-             onChange={changeHandler} value={signupCred.email}/>
+            <Input type="text" name="name" id="exampleEmail" placeholder="Enter name" 
+             onChange={changeHandler} value={signupCred.name}/>
           </FormGroup>
         </Col>
         <Col md={6}>
           <FormGroup>
             <Label for="examplePassword">Password</Label>
-            <Input type="password" name="password" id="examplePassword" placeholder="Enter Email" 
+            <Input type="password" name="password" id="examplePassword" placeholder="Enter Password" 
              onChange={changeHandler} value={signupCred.password}/>
           </FormGroup>
         </Col>
       </Row>
       <FormGroup className='usernamebox'>
         <Label for="exampleUsername">Name</Label>
-        <Input type="text" name="Username" id="name" placeholder="Enter Name"
-         onChange={changeHandler} value={signupCred.Username}/>
+        <Input type="text" name="username" id="name" placeholder="Enter Your UserName"
+         onChange={changeHandler} value={signupCred.username}/>
       </FormGroup>
 
       <FormGroup className='usernamebox'>
@@ -55,6 +56,12 @@ const Signup = (props) => {
           <option>ngo</option>
           <option>admin</option>
         </Input>
+      </FormGroup>
+
+      <FormGroup>
+        <Label for="description">Description</Label>
+        <Input type="textarea" name="description" id="description" value={signupCred.description} 
+        onChange={changeHandler}/>
       </FormGroup>
 
       <Button className='butto' onClick={()=>{
