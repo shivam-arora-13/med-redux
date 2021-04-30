@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Router, Switch, Redirect,withRouter } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import history from '../history'
 import Header from './header_footer/Navbar';
 import Footer from './header_footer/footer';
@@ -28,38 +28,38 @@ const Main = (props)=>{
 
     let routes = null;
     if(props.role===null){
-        routes = <>
-            <Route exact path ='/Login' component={Login}   />
-            <Route exact path ='/Signup' component={Signup}   />
-            
-        </>
+        routes = <Switch>
+            <Route path ='/' exact component={home} />
+            <Route path='/about' exact component={about} /> 
+            <Route path='/wth' exact component={WTH} /> 
+            <Route path = '/Error' exact component={Error} /> 
+            <Route path ='/Login' exact component={Login}   />
+            <Route path ='/Signup' exact component={Signup}   />
+            <Redirect to="/"/>
+            </Switch>
     }else{
-        routes = <>
-        <Route exact path='/donorspeaks' component={DonorSpeaks} />  
-        <Route path='/ngoBeneficiary' component={ngoBeneficiary} />
-        <Route path='/ngoList' component={ngoList} /> 
-        <Route path='/medicinelist' component={medicinelist} /> 
-        <Route path='/blog' component={blog} />      
-        <Route path='/BlogArticle' component={BlogArticle} />
-        { props.role==="ngo" && <Route exact path='/addblog' component={Addblogs} />}
-        </>
+        routes = <Switch>
+        <Route path ='/' exact component={home} />
+        <Route path='/about' exact component={about} /> 
+        <Route path='/wth' exact component={WTH} /> 
+        <Route path = '/Error' exact component={Error} /> 
+        <Route path='/donorspeaks' exact component={DonorSpeaks} />  
+        <Route path='/ngoBeneficiary' exact component={ngoBeneficiary} />
+        <Route path='/ngoList'  exactcomponent={ngoList} /> 
+        <Route path='/medicinelist' exact component={medicinelist} /> 
+        <Route path='/blog' exact component={blog} />      
+        <Route path='/BlogArticle' exact component={BlogArticle} />
+        { props.role==="ngo" && <Route path='/addblog' exact component={Addblogs} />}
+        <Redirect to="/"/>
+        </Switch>
     }
 
         return(
             <div className="page-container">
                 <div className="content-wrap">
-                    <Router history={history}>
                         <Header/>
-                        <Switch>
-                        <Route exact path ='/home' component={home} />
-                        <Route exact path='/about' component={about} /> 
-                        <Route exact path='/wth' component={WTH} /> 
-                        <Route exact path = '/Error' component={Error} /> 
                         {routes}
-                        <Redirect to="/home"/>
-                        </Switch>
                         <Footer/>
-                    </Router>
                 </div>
             </div>
         );
