@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Router, Switch, Redirect,withRouter } from 'react-router-dom';
 import history from '../history'
 import Header from './header_footer/Navbar';
@@ -20,59 +20,56 @@ import blog from './blog_page_article/blog_page';
 import BlogArticle from './blog_page_article/blog_article';
 import WTH from './waystohelp/wth'
 
-
 import "./main.css";
 
-const mapStateToProps = state =>{
-    return {
-        medicines : state.medicines
+
+
+const Main = (props)=>{
+
+    let routes = null;
+    if(props.role===null){
+        routes = <>
+            <Route exact path ='/Login' component={Login}   />
+            <Route exact path ='/Signup' component={Signup}   />
+            
+        </>
+    }else{
+        routes = <>
+        <Route exact path='/donorspeaks' component={DonorSpeaks} />  
+        <Route path='/ngoBeneficiary' component={ngoBeneficiary} />
+        <Route path='/ngoList' component={ngoList} /> 
+        <Route path='/medicinelist' component={medicinelist} /> 
+        <Route path='/blog' component={blog} />      
+        <Route path='/BlogArticle' component={BlogArticle} />
+        { props.role==="ngo" && <Route exact path='/addblog' component={Addblogs} />}
+        </>
     }
-}
-class Main extends Component {
 
-    constructor(props) {
-        super(props);
-        
-    }
-
-    
-
-    
-    render() {
-        const Home = () =>{
-            return(
-                <home />
-            )
-        }
         return(
             <div className="page-container">
                 <div className="content-wrap">
                     <Router history={history}>
                         <Header/>
                         <Switch>
-                        <Route path ='/'>
                         <Route exact path ='/home' component={home} />
-                        
-                        <Route exact path='/addblog' component={Addblogs} />
-                        <Route exact path='/about' component={about} />     
-                        <Route exact path='/donorspeaks' component={DonorSpeaks} />  
-                        <Route path='/ngoBeneficiary' component={ngoBeneficiary} />
-                        <Route exact path ='/Login' component={Login}   />
-                        <Route exact path ='/Signup' component={Signup}   />
-                        <Route exact path = '/Error' component={Error} />    
-                        <Route path='/ngoList' component={ngoList} />   
-                        <Route path='/medicinelist' component={medicinelist} /> 
-                        <Route path='/blog' component={blog} />      
-                        <Route path='/BlogArticle' component={BlogArticle} />
-                        <Route exact path='/wth' component={WTH} />    
-                        </Route>
+                        <Route exact path='/about' component={about} /> 
+                        <Route exact path='/wth' component={WTH} /> 
+                        <Route exact path = '/Error' component={Error} /> 
+                        {routes}
+                        <Redirect to="/home"/>
                         </Switch>
                         <Footer/>
                     </Router>
                 </div>
             </div>
         );
+}
+
+
+const mapStateToProps = state =>{
+    return {
+        role : state.user.role
     }
 }
 
-export default withRouter(connect(mapStateToProps)(Main)); 
+export default connect(mapStateToProps)(Main); 
